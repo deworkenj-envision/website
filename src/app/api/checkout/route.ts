@@ -18,13 +18,9 @@ const CheckoutSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limit
     const rl = await rateLimit(req);
     if (!rl.success) {
-      return NextResponse.json(
-        { error: "Too many requests" },
-        { status: 429 }
-      );
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
 
     const body = await req.json();
@@ -37,7 +33,6 @@ export async function POST(req: NextRequest) {
       0
     );
 
-    // Create order in DB
     const order = await Order.create({
       email: parsed.email,
       items: parsed.items,
@@ -46,13 +41,9 @@ export async function POST(req: NextRequest) {
     });
 
     if (!stripe) {
-      return NextResponse.json(
-        { error: "Stripe not configured" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Stripe not configured" }, { status: 500 });
     }
 
-    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -77,9 +68,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Checkout error:", error);
-    return NextResponse.json(
-      { error: "Checkout failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
   }
 }
