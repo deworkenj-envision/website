@@ -26,4 +26,5 @@ npm install
 cp .env.example .env.local
 npm run seed
 npm run dev
+trigger deploy
 ```
