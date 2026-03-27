@@ -1,0 +1,16 @@
+# Deployment checklist
+- Fill `.env.local`
+- Run `npm install`
+- Run `npm run seed`
+- Run `npm run dev`
+- Test `/api/health`
+- Test `/api/ready`
+- Push to GitHub
+- Import to Vercel
+- Add environment variables
+- Set `NEXTAUTH_URL` and `APP_URL`
+- Add Stripe webhook endpoint
+- Test checkout in Stripe test mode
+- Add domain
+- Verify SSL
+- Switch Stripe to live mode
