@@ -1,13 +1,16 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { connectToDatabase } from "@/lib/db";
-import { User } from "@/models/User";
+import { connectToDatabase } from "./db";
+import { User } from "../models/User";
+
+// Bypass missing bcryptjs type declarations
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bcrypt: {
+  compare(data: string, encrypted: string): Promise<boolean>;
+} = require("bcryptjs");
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
