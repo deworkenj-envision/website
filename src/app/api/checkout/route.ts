@@ -18,7 +18,6 @@ const CheckoutSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    // ? FIXED: use rl.ok instead of rl.success
     const rl = await rateLimit(req);
     if (!rl.ok) {
       return NextResponse.json(
